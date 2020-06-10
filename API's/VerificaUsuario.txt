@@ -1,0 +1,15 @@
+//RETORNA A QUANTIDADE DE USUARIOS COM NOME OU EMAIL CADASTRADO - MONGODB
+
+exports = async function(payload) {
+  const body = payload.query;
+  
+  const cknome = {"nome": body.nome};
+  const ckemail = {"email": body.email};
+  
+  
+  const mdb = context.services.get('mongodb-atlas');
+  const mycollection = mdb.db("projetofeira").collection("usuarios");
+  
+  return (mycollection.count({$or: [cknome,ckemail]}) );
+  
+}

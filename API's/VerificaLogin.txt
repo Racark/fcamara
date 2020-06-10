@@ -1,0 +1,19 @@
+//RETORNA A QUANTIDADE DE REGISTROS COM MESMO EMAIL E SENHA INSERIDO
+// SE RETORNA 0, O LOGIN ESTÁ INCORRETO
+// SE RETORNA 1, O LOGIN ESTÁ CORRETO
+// SE RETORNAR >= 2, EXISTE FALHA NO BANCO E NOS CADASTROS
+
+exports = async function(payload) {
+  const body = payload.query;
+  
+  const cksenha = {"senha": body.senha,};
+  const ckemail = {"email": body.email};
+  
+  
+  const mdb = context.services.get('mongodb-atlas');
+  const mycollection = mdb.db("projetofeira").collection("usuarios");
+  
+  return(mycollection.count({$and: [ckemail, senha]}));
+
+}
+  
