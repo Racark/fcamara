@@ -1,0 +1,24 @@
+//Adiciona um produto, ao estoque do usuario
+
+exports = async function(payload) {
+  // Convert the webhook body from BSON to an EJSON object
+
+  const body = payload.query;
+
+
+  const mdb = context.services.get('mongodb-atlas');
+  const requests = mdb.db("projetofeira").collection("usuarios")
+  const { insertedId } = await requests.updateOne(
+     {Email: body.email},
+     {$addToSet: {
+       Estoque: {
+        Nome: body.fruta, 
+        Tipo: body.fruta,
+        Quantidade: body.quantidade,
+        Medida: body.medida,
+       }
+     }
+    });
+    
+  return { msg: "finished!" };
+}
