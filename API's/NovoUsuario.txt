@@ -1,0 +1,20 @@
+exports = async function(payload) {
+
+
+  const body = payload.query;
+
+
+    const mdb = context.services.get('mongodb-atlas');
+    const requests = mdb.db("projetofeira").collection("usuarios")
+    const { insertedId } = await requests.insertOne({ 
+      "Nome": body.Cliente,
+      "Senha": body.senha,
+      "CEP": body.cep,
+      "Complemento": body.complemento,
+      "Telefone": body.telefone,
+      "Email": body.email,
+      "CPF": body.cpf });
+
+
+  return { msg: "finished!" };
+}

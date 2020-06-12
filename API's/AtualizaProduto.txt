@@ -1,0 +1,36 @@
+//Como tive dificuldade pra conseguir atualizar um espaço de uma array no mongodb, por enquanto, ele deleta a array antiga e cria uma nova com os novos dados
+
+exports = async function(payload) {
+  // Convert the webhook body from BSON to an EJSON object
+
+  const body = payload.query;
+
+
+  const mdb = context.services.get('mongodb-atlas');
+  const requests = mdb.db("projetofeira").collection("usuarios")
+  requests.updateOne(
+     {Email: body.email},
+     {$addToSet: {
+       Estoque: {
+        Nome: body.frutaA, 
+        Tipo: body.tipoA,
+        Quantidade: body.quantidadeA,
+        Medida: body.medidaA,
+       }
+     }
+    });
+    
+  const { insertedId } = await requests.updateOne(
+     {Email: body.email},
+     {$addToSet: {
+       Estoque: {
+        Nome: body.fruta, 
+        Tipo: body.tipo,
+        Quantidade: body.quantidade,
+        Medida: body.medida,
+       }
+     }
+    });
+    
+  return { msg: "finished!" };
+}
